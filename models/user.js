@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const isEmail = require('validator/lib/isEmail');
+const isLength = require('validator/lib/isLength');
+const isStrongPassword = require('validator/lib/isStrongPassword');
 
 const bcrypt = require('bcryptjs');
 
@@ -12,8 +14,13 @@ const userSchema = new mongoose.Schema({
   name: {
     type: String,
     default: 'Константин',
-    minlength: 2,
-    maxlength: 30,
+    required: true,
+    validate: {
+      validator(v) {
+        return isLength(v, { min: 2, max: 30 });
+      },
+      massage: (props) => `${props.value} ${SCHEMA_USER_VALIDATE_MESSAGES.NAME}`,
+    },
   },
   email: {
     type: String,
@@ -26,7 +33,17 @@ const userSchema = new mongoose.Schema({
       massage: (props) => `${props.value} ${SCHEMA_USER_VALIDATE_MESSAGES.EMAIL}`,
     },
   },
-  password: { type: String, required: true, select: false },
+  password: {
+    type: String,
+    required: true,
+    validate: {
+      validator(v) {
+        return isStrongPassword(v);
+      },
+      massage: () => SCHEMA_USER_VALIDATE_MESSAGES.PASSWORD,
+    },
+    select: false,
+  },
 });
 
 userSchema.statics.findUserByCredentials = function (email, password) {

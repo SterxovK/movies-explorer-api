@@ -6,6 +6,8 @@ const SCHEMA_MOVIE_VALIDATE_MESSAGES = {
 
 const SCHEMA_USER_VALIDATE_MESSAGES = {
   EMAIL: 'не является EMAIL',
+  PASSWORD: 'Ненадежный пароль',
+  NAME: 'длинна строки должна быть от 2 до 30 символов',
 };
 
 const AUTH_ERROR_MASSAGE = 'Неправильные почта или пароль';
