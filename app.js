@@ -33,7 +33,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(
   cors({
-    // НЕ ЗАБЫТЬ ВСТАВИТЬ АДРЕС В КОНСТАНТЫ
     origin: CORS_ORIGIN,
     credentials: true,
   }),

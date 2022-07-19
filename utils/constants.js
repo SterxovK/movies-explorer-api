@@ -32,10 +32,9 @@ const REGEX = /^https?:\/\/(www\.)?[a-zA-Z\d-]+\.[\w\d\-.~:/?#[\]@!$&'()*+,;=]{2
 const MONGODB_ADDRESS = 'mongodb://localhost:27017/bitfilmsdb';
 const PORT_ADDRESS = 3000;
 
-// ДОБАВТЬ АДРЕС
 const CORS_ORIGIN = [
   'http://localhost:3001',
-  'http://api.diploma.sterkhov.nomoredomains.xyz',
+  'https://api.diploma.sterkhov.nomoredomains.xyz',
 ];
 
 module.exports = {
