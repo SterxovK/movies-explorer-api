@@ -1,4 +1,4 @@
-const SERVER_ERROR_MESSAGE = require('../utils/constants');
+const { SERVER_ERROR_MESSAGE } = require('../utils/constants');
 
 module.exports = (err, req, res, next) => {
   const { statusCode = 500, message } = err;

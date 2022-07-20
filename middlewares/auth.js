@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const AuthError = require('../Error/AuthError');
 
-const NOT_AUTH_ERROR_MESSAGE = require('../utils/constants');
+const { NOT_AUTH_ERROR_MESSAGE } = require('../utils/constants');
 
 const auth = (req, res, next) => {
   const { cookies } = req;
