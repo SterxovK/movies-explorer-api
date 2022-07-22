@@ -7,21 +7,12 @@ const bcrypt = require('bcryptjs');
 
 const AuthError = require('../Error/AuthError');
 
-const SCHEMA_USER_VALIDATE_MESSAGES = require('../utils/constants');
-const AUTH_ERROR_MASSAGE = require('../utils/constants');
+const {
+  SCHEMA_USER_VALIDATE_MESSAGES,
+  AUTH_ERROR_MESSAGE,
+} = require('../utils/constants');
 
 const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    default: 'Константин',
-    required: true,
-    validate: {
-      validator(v) {
-        return isLength(v, { min: 2, max: 30 });
-      },
-      massage: (props) => `${props.value} ${SCHEMA_USER_VALIDATE_MESSAGES.NAME}`,
-    },
-  },
   email: {
     type: String,
     required: true,
@@ -30,7 +21,7 @@ const userSchema = new mongoose.Schema({
       validator(v) {
         return isEmail(v);
       },
-      massage: (props) => `${props.value} ${SCHEMA_USER_VALIDATE_MESSAGES.EMAIL}`,
+      message: (props) => `${props.value} ${SCHEMA_USER_VALIDATE_MESSAGES.EMAIL}`,
     },
   },
   password: {
@@ -40,9 +31,19 @@ const userSchema = new mongoose.Schema({
       validator(v) {
         return isStrongPassword(v);
       },
-      massage: () => SCHEMA_USER_VALIDATE_MESSAGES.PASSWORD,
+      message: () => SCHEMA_USER_VALIDATE_MESSAGES.PASSWORD,
     },
     select: false,
+  },
+  name: {
+    type: String,
+    required: true,
+    validate: {
+      validator(v) {
+        return isLength(v, { min: 2, max: 30 });
+      },
+      message: (props) => `${props.value} ${SCHEMA_USER_VALIDATE_MESSAGES.NAME}`,
+    },
   },
 });
 
@@ -51,12 +52,12 @@ userSchema.statics.findUserByCredentials = function (email, password) {
     .select('+password')
     .then((user) => {
       if (!user) {
-        return Promise.reject(new AuthError(AUTH_ERROR_MASSAGE));
+        return Promise.reject(new AuthError(AUTH_ERROR_MESSAGE));
       }
 
       return bcrypt.compare(password, user.password).then((matched) => {
         if (!matched) {
-          return Promise.reject(new AuthError(AUTH_ERROR_MASSAGE));
+          return Promise.reject(new AuthError(AUTH_ERROR_MESSAGE));
         }
 
         return user;

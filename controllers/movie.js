@@ -33,16 +33,22 @@ const createMovie = async (req, res, next) => {
 
 // DELETE
 const deleteMovie = (req, res, next) => {
+  const owner = req.user._id;
   const { movieId } = req.params;
-  Movie.findByIdAndRemove(movieId)
+  Movie.findById(movieId)
     .then((movie) => {
       if (!movie) {
         throw new NotFoundError(MOVIE_NOT_FOUND_MESSAGE);
       }
-      if (movie.owner._id.toString() !== req.user._id.toString()) {
+      if (movie.owner.toString() !== owner) {
         throw new ForbiddenError(FORBIDDEN_ERROR_MESSAGE);
+      } else {
+        Movie.findByIdAndDelete(movieId)
+          .then((deletedMovie) => {
+            res.status(200).send({ data: deletedMovie });
+          })
+          .catch(next);
       }
-      res.send({ data: movie });
     })
     .catch(next);
 };

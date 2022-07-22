@@ -40,11 +40,7 @@ router.use('/users', userRouter);
 router.use('/movies', movieRouter);
 
 router.use((req, res, next) => {
-  try {
-    throw new NotFoundError(NOT_FOUND_ERROR_MESSAGE);
-  } catch (err) {
-    next(err);
-  }
+  next(new NotFoundError(NOT_FOUND_ERROR_MESSAGE));
 });
 
 module.exports = router;

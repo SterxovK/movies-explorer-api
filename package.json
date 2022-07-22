@@ -1,7 +1,7 @@
 {
   "name": "movies-explorer-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "Diplom Movies-explorer-api",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
@@ -13,7 +13,7 @@
     "url": "git+https://github.com/SterxovK/movies-explorer-api.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Sterkhov Konstantin",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/SterxovK/movies-explorer-api/issues"
@@ -27,6 +27,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
+    "express-rate-limit": "^5.2.5",
     "express-winston": "^4.2.0",
     "helmet": "^5.1.0",
     "jsonwebtoken": "^8.5.1",

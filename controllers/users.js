@@ -7,6 +7,7 @@ const NotFoundError = require('../Error/NotFoundError');
 const CastError = require('../Error/CastError');
 const ConflictEmailError = require('../Error/ConflictEmailError');
 const NotValidError = require('../Error/NotFoundError');
+const AuthError = require('../Error/AuthError');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -34,7 +35,10 @@ const login = (req, res, next) => {
         httpOnly: true,
         sameSite: true,
       })
-        .send({ data: user });
+        .send(`${user.name} авторизован`);
+    })
+    .catch(() => {
+      throw new AuthError(USER_NOT_FOUND_MESSAGE);
     })
     .catch(next);
 };
@@ -104,8 +108,9 @@ const updateUserCurrent = (req, res, next) => {
       if (error.name === VALIDATION_ERROR_NAME) {
         next(new NotValidError(error.message));
       } else {
-        next(error);
+        next(new ConflictEmailError(CONFLICT_EMAIL_ERROR));
       }
+      next(error);
     });
 };
 

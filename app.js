@@ -11,6 +11,7 @@ const helmet = require('helmet');
 const error = require('./middlewares/error');
 const router = require('./routes/index');
 
+const rateLimiter = require('./middlewares/rateLimit').default;
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const {
@@ -41,6 +42,7 @@ app.use(
 app.use(requestLogger);
 
 app.use(helmet());
+app.use(rateLimiter);
 
 app.get('/crash-test', () => {
   setTimeout(() => {

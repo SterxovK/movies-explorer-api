@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const isURL = require('validator/lib/isURL');
-const SCHEMA_MOVIE_VALIDATE_MESSAGES = require('../utils/constants');
+const { SCHEMA_MOVIE_VALIDATE_MESSAGES } = require('../utils/constants');
 
 const movieSchema = new mongoose.Schema({
   country: {
@@ -30,7 +30,7 @@ const movieSchema = new mongoose.Schema({
       validator(v) {
         return isURL(v);
       },
-      massage: (props) => `${props.value} ${SCHEMA_MOVIE_VALIDATE_MESSAGES.IMAGE}`,
+      message: (props) => `${props.value} ${SCHEMA_MOVIE_VALIDATE_MESSAGES.IMAGE}`,
     },
   },
   trailerLink: {
@@ -40,7 +40,7 @@ const movieSchema = new mongoose.Schema({
       validator(v) {
         return isURL(v);
       },
-      massage: (props) => `${props.value} ${SCHEMA_MOVIE_VALIDATE_MESSAGES.TRAILER}`,
+      message: (props) => `${props.value} ${SCHEMA_MOVIE_VALIDATE_MESSAGES.TRAILER}`,
     },
   },
   thumbnail: {
@@ -50,7 +50,7 @@ const movieSchema = new mongoose.Schema({
       validator(v) {
         return isURL(v);
       },
-      massage: (props) => `${props.value} ${SCHEMA_MOVIE_VALIDATE_MESSAGES.THUMBNAIL}`,
+      message: (props) => `${props.value} ${SCHEMA_MOVIE_VALIDATE_MESSAGES.THUMBNAIL}`,
     },
   },
   owner: {
