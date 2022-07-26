@@ -62,32 +62,29 @@ const getUserCurrent = (req, res, next) => {
     });
 };
 
-const createUser = async (req, res, next) => {
-  try {
-    const {
-      email, password, name,
-    } = req.body;
-
-    const hashPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({
-      email,
-      password: hashPassword,
-      name,
-    });
-    res.status(201).send({
-      user: {
-        email: user.email,
+const createUser = (req, res, next) => {
+  bcrypt.hash(req.body.password, 10)
+    .then((hash) => User.create({
+      email: req.body.email,
+      password: hash,
+      name: req.body.name,
+    }))
+    .then((user) => {
+      res.status(201).send({
         name: user.name,
         _id: user._id,
-      },
-    });
-  } catch (err) {
-    if (err.code === 11000) {
-      next(new ConflictEmailError(CONFLICT_EMAIL_ERROR));
-    } else {
-      next(err);
-    }
-  }
+        email: user.email,
+      });
+    })
+    .catch((err) => {
+      if (err.name === NotValidError) {
+        next(new NotValidError(err.message));
+      }
+      if (err.code === 11000) {
+        next(new ConflictEmailError(CONFLICT_EMAIL_ERROR));
+      }
+    })
+    .catch(next);
 };
 
 const updateUserCurrent = (req, res, next) => {

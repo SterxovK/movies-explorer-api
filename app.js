@@ -11,7 +11,7 @@ const helmet = require('helmet');
 const error = require('./middlewares/error');
 const router = require('./routes/index');
 
-const rateLimiter = require('./middlewares/rateLimit').default;
+const rateLimiter = require('./middlewares/rateLimit');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const {
@@ -24,7 +24,6 @@ const app = express();
 
 const { PORT = PORT_ADDRESS } = process.env;
 
-// ??
 app.use(cookieParser());
 
 mongoose.connect(MONGODB_ADDRESS);

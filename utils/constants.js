@@ -28,8 +28,10 @@ const FILENAME_REQUEST_LOG = 'request.log';
 const FILENAME_ERROR_LOG = 'error.log';
 
 const REGEX = /^https?:\/\/(www\.)?[a-zA-Z\d-]+\.[\w\d\-.~:/?#[\]@!$&'()*+,;=]{2,}#?$/;
-
-const MONGODB_ADDRESS = 'mongodb://localhost:27017/bitfilmsdb';
+const { NODE_ENV, DATABASE_URL } = process.env;
+const MONGODB_ADDRESS = NODE_ENV === 'production'
+  ? DATABASE_URL
+  : 'mongodb://localhost:27017/moviesdb';
 const PORT_ADDRESS = 3000;
 
 const CORS_ORIGIN = [
