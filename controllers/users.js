@@ -35,7 +35,8 @@ const login = (req, res, next) => {
         httpOnly: true,
         sameSite: true,
       })
-        .send(`${user.name} авторизован`);
+        .send({ token });
+      console.log(token);
     })
     .catch(() => {
       throw new AuthError(USER_NOT_FOUND_MESSAGE);

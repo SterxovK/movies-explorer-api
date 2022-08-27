@@ -12,7 +12,8 @@ const {
 const getMovies = (req, res, next) => {
   Movie.find({})
     .then((cards) => {
-      res.status(200).send({ data: cards });
+      // нужно было отправлять массив
+      res.status(200).send(cards);
     })
     .catch(next);
 };

@@ -21,22 +21,19 @@ const {
 } = require('./utils/constants');
 
 const app = express();
-
-const { PORT = PORT_ADDRESS } = process.env;
-
-app.use(cookieParser());
-
-mongoose.connect(MONGODB_ADDRESS);
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use(
   cors({
     origin: CORS_ORIGIN,
     credentials: true,
   }),
 );
+const { PORT = PORT_ADDRESS } = process.env;
+
+app.use(cookieParser());
+mongoose.connect(MONGODB_ADDRESS);
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(requestLogger);
 
