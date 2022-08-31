@@ -37,6 +37,7 @@ const PORT_ADDRESS = 3000;
 const CORS_ORIGIN = [
   'http://localhost:3001',
   'https://api.diploma.sterkhov.nomoredomains.xyz',
+  'https://diploma.sterkhov.nomoredomains.sbs',
 ];
 
 module.exports = {
