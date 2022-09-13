@@ -3,34 +3,36 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 
-const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+
 const { errors } = require('celebrate');
-const cors = require('cors');
 const helmet = require('helmet');
-const error = require('./middlewares/error');
-const router = require('./routes/index');
-
-const rateLimiter = require('./middlewares/rateLimit');
-const { requestLogger, errorLogger } = require('./middlewares/logger');
-
+const cors = require('cors');
 const {
-  MONGODB_ADDRESS,
-  PORT_ADDRESS,
-  CORS_ORIGIN,
+  MONGO_DB_ADDRESS,
+  PORT_NUMBER,
+  ALLOWED_CORS,
 } = require('./utils/constants');
 
-const app = express();
-app.use(
-  cors({
-    origin: CORS_ORIGIN,
-    credentials: true,
-  }),
-);
-const { PORT = PORT_ADDRESS } = process.env;
+const rateLimiter = require('./middlewares/rateLimit');
 
-app.use(cookieParser());
-mongoose.connect(MONGODB_ADDRESS);
+const { requestLogger, errorLogger } = require('./middlewares/logger');
+
+const errorHandler = require('./middlewares/errorHandler');
+
+const router = require('./routes/index');
+
+const app = express();
+
+app.use(cors({
+  origin: ALLOWED_CORS,
+}));
+
+const { PORT = PORT_NUMBER } = process.env;
+
+mongoose.connect(MONGO_DB_ADDRESS, {
+  useNewUrlParser: true,
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -38,6 +40,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(requestLogger);
 
 app.use(helmet());
+
 app.use(rateLimiter);
 
 app.get('/crash-test', () => {
@@ -52,8 +55,8 @@ app.use(errorLogger);
 
 app.use(errors());
 
-app.use(error);
+app.use(errorHandler);
 
 app.listen(PORT, () => {
-  console.log(`Listening port ${PORT}`);
+  console.log(`App listening on port  ${PORT}`); /* eslint-disable-line no-console */
 });
