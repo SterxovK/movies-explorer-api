@@ -6,8 +6,9 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 const { errors } = require('celebrate');
-const helmet = require('helmet');
 const cors = require('cors');
+const helmet = require('helmet');
+
 const {
   MONGO_DB_ADDRESS,
   PORT_NUMBER,
@@ -24,9 +25,12 @@ const router = require('./routes/index');
 
 const app = express();
 
-app.use(cors({
-  origin: ALLOWED_CORS,
-}));
+app.use(
+  cors({
+    origin: ALLOWED_CORS,
+    credentials: true,
+  }),
+);
 
 const { PORT = PORT_NUMBER } = process.env;
 
