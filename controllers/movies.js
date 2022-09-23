@@ -45,7 +45,7 @@ const deleteMovie = (req, res, next) => {
   const owner = req.user._id;
   const { movieId } = req.params;
 
-  Movie.find({ owner, movieId })
+  Movie.findOne({ owner, movieId })
     .then((movie) => {
       if (!movie) {
         throw new NotFoundError(NOT_FOUND_MOVIE_ERROR_MESSAGE);
