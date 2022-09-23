@@ -50,10 +50,12 @@ const deleteMovie = (req, res, next) => {
       if (!movie) {
         throw new NotFoundError(NOT_FOUND_MOVIE_ERROR_MESSAGE);
       }
+      // eslint-disable-next-line no-console
+      console.error(movie);
       if (movie.owner.toString() !== owner) {
         throw new ForbiddenError(FORBIDDEN_DELETE_MOVIE_MESSAGE);
       } else {
-        Movie.findByIdAndDelete(movieId)
+        Movie.findOneAndDelete({ movieId })
           .then((deletedMovie) => {
             res.status(200).send({ data: deletedMovie });
           })
