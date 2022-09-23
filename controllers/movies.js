@@ -6,9 +6,9 @@ const BadRequestError = require('../errors/BadRequestError');
 // const ForbiddenError = require('../errors/ForbiddenError');
 
 const {
-// NOT_FOUND_MOVIE_ERROR_MESSAGE,
+  // NOT_FOUND_MOVIE_ERROR_MESSAGE,
   VALIDATION_ERROR_NAME,
-// FORBIDDEN_DELETE_MOVIE_MESSAGE,
+  // FORBIDDEN_DELETE_MOVIE_MESSAGE,
 } = require('../utils/constants');
 
 const getMovies = (req, res, next) => {
@@ -26,8 +26,13 @@ const getMovies = (req, res, next) => {
 
 const createMovie = (req, res, next) => {
   const owner = req.user._id;
+  const { movieId } = req.body;
 
-  Movie.create({ owner, ...req.body })
+  Movie.findOneAndUpdate(
+    { owner, movieId },
+    { ...req.body },
+    { new: true, upsert: true },
+  )
     .then((movie) => {
       res.status(201).send({ data: movie });
     })
